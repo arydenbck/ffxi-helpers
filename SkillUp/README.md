@@ -1,5 +1,8 @@
 # SkillUp
 
+> ## ⬇️ Download
+> **[Download SkillUp.zip](https://github.com/arydenbck/ffxi-helpers/raw/main/SkillUp/SkillUp.zip)** is all you need. Extract it into your Windower `addons/` folder, then load it in game with `//lua load skillup`.
+
 **SkillUp** is a Windower addon for *Final Fantasy XI* that automates
 magic-skill progression through configurable spell rotations. It
 supports multiple magic skills, party-aware targeting, MP management,
