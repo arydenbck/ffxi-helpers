@@ -63,8 +63,7 @@ plus the following Lua modules:
 -   `texts`
 -   `images`
 
-The spell library is loaded from `libs/spell_library.lua`, while the UI
-uses `icons/background.png` for its panel backgrounds.
+The spell library is loaded from `libs/spell_library.lua`.
 
 
 ## Installation
@@ -81,8 +80,6 @@ addons/
     │   ├── skillup_helpers.lua
     │   ├── spell_library.lua
     │   └── utils.lua
-    └── icons/
-        └── background.png
 ```
 
 On first load for a character, SkillUp creates:
@@ -711,9 +708,9 @@ SkillUp/
 ├── skillup.lua                 # Main addon implementation
 ├── settings.lua                # Root/default settings template
 ├── libs/
-│   └── spell_library.lua       # Spell grouping/library used by the UI
-├── icons/
-│   └── background.png          # UI panel background
+│   ├── skillup_helpers.lua     # Helper functions
+│   ├── spell_library.lua       # Spell grouping/library used by the UI
+│   └── utils.lua               # Shared utilities
 └── data/
     └── <character>/
         ├── settings.lua         # Character-specific settings

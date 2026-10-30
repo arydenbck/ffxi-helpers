@@ -37,7 +37,6 @@ SKILL_UP_ITEM_IDS = T{5889,5890,5891,5892}
 -- ============================================================
 -- Menu (built into the Main tab of the always-on settings UI)
 -- ============================================================
-ICON_DIR = 'icons/'  -- asset folder for background.png (used for panel backdrops)
 
 -- The 11 skill-up categories, as plain button data.
 CATEGORY_BUTTON_DEFS = {
@@ -2791,7 +2790,6 @@ function create_settings_ui()
     settings_ui.border = images.new({
         pos = {x = settings_origin_x - SETTINGS_PAD - 3, y = settings_origin_y - SETTINGS_PAD - 3},
         size = {width = 400, height = 300},
-        texture = {path = windower.addon_path..ICON_DIR..'background.png', fit = false},
         draggable = false,
     })
     settings_ui.border:color(88, 101, 242)
@@ -2802,7 +2800,6 @@ function create_settings_ui()
     settings_ui.backdrop = images.new({
         pos = {x = settings_origin_x - SETTINGS_PAD, y = settings_origin_y - SETTINGS_PAD},
         size = {width = 400, height = 300},
-        texture = {path = windower.addon_path..ICON_DIR..'background.png', fit = false},
         draggable = true,
     })
     settings_ui.backdrop:color(26, 28, 34)
@@ -2813,7 +2810,6 @@ function create_settings_ui()
     settings_ui.header_panel = images.new({
         pos = {x = settings_origin_x - SETTINGS_PAD, y = settings_origin_y - SETTINGS_PAD},
         size = {width = 400, height = 60},
-        texture = {path = windower.addon_path..ICON_DIR..'background.png', fit = false},
         draggable = false,
     })
     settings_ui.header_panel:color(40, 44, 54)
@@ -2824,13 +2820,13 @@ function create_settings_ui()
     -- Created now so they render on top of the backdrop; positioned and
     -- sized later in resize_settings_backdrop() once section boundaries
     -- are known. Muted slate instead of the old gold.
-    settings_ui.sep_tabs = images.new({pos={x=0,y=0}, size={width=10,height=2}, texture={path=windower.addon_path..ICON_DIR..'background.png', fit=false}, draggable=false})
+    settings_ui.sep_tabs = images.new({pos={x=0,y=0}, size={width=10,height=2}, draggable=false})
     settings_ui.sep_tabs:color(70, 75, 90)
     settings_ui.sep_tabs:show()
-    settings_ui.sep_subtabs = images.new({pos={x=0,y=0}, size={width=10,height=2}, texture={path=windower.addon_path..ICON_DIR..'background.png', fit=false}, draggable=false})
+    settings_ui.sep_subtabs = images.new({pos={x=0,y=0}, size={width=10,height=2}, draggable=false})
     settings_ui.sep_subtabs:color(70, 75, 90)
     settings_ui.sep_subtabs:show()
-    settings_ui.sep_footer = images.new({pos={x=0,y=0}, size={width=10,height=2}, texture={path=windower.addon_path..ICON_DIR..'background.png', fit=false}, draggable=false})
+    settings_ui.sep_footer = images.new({pos={x=0,y=0}, size={width=10,height=2}, draggable=false})
     settings_ui.sep_footer:color(70, 75, 90)
     settings_ui.sep_footer:show()
 
@@ -2910,7 +2906,6 @@ function create_settings_ui()
     settings_ui.main_tab_highlight = images.new({
         pos = {x = settings_origin_x - 4, y = settings_origin_y - 2},
         size = {width = settings_ui.main_tab_highlight_w, height = settings_ui.main_tab_highlight_h},
-        texture = {path = windower.addon_path..ICON_DIR..'background.png', fit = false},
         draggable = false,
     })
     settings_ui.main_tab_highlight:color(26, 28, 34)
@@ -2921,7 +2916,6 @@ function create_settings_ui()
     settings_ui.sub_tab_highlight = images.new({
         pos = {x = settings_origin_x - 4, y = settings_origin_y - 2},
         size = {width = 60, height = 20},
-        texture = {path = windower.addon_path..ICON_DIR..'background.png', fit = false},
         draggable = false,
     })
     settings_ui.sub_tab_highlight:color(26, 28, 34)
@@ -3415,7 +3409,6 @@ function help_new_image(r, g, b, draggable)
     local img = images.new({
         pos = {x = 0, y = 0},
         size = {width = 100, height = 100},
-        texture = {path = windower.addon_path..ICON_DIR..'background.png', fit = false},
         draggable = draggable,
     })
     img:color(r, g, b)
