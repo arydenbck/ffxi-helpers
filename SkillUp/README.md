@@ -51,7 +51,7 @@ interface.
     skill-up message matching.
 
 The supported categories are defined directly in the addon and exposed
-through the main menu. fileciteturn1file0L42-L60
+through the main menu.
 
 ## Requirements
 
@@ -181,13 +181,13 @@ Sublimation, or Use Convert is enabled. Commands: `//su setautorefresh`,
 `//su setautohaste`, `//su setsublimation`, `//su setconvert`.
 
 These options are defined in `GLOBAL_TOGGLE_DEFS`.
-fileciteturn2file0L21-L32
+
 
 ### Ninjutsu
 
 Ninjutsu can optionally open a Toolbag when the required loose ninja
 tool is not present in inventory. The addon checks the primary tool
-first and then the universal tool. fileciteturn2file0L475-L495
+first and then the universal tool.
 
 The actual tool mappings are supplied by `NINJUTSU_TOOL_MAP` and
 `TOOLBAG_MAP`; those tables are not included in the portions of the
@@ -205,7 +205,7 @@ Singing can track:
 Wind and String tracking can be individually enabled or disabled. The
 addon does **not** automatically swap instruments; the appropriate
 instrument must be equipped manually if that skill is being tracked.
-fileciteturn2file0L33-L39 fileciteturn2file0L497-L523
+
 
 ### Blue Magic
 
@@ -217,14 +217,14 @@ Carcharian Verve
 
 
 These spells are associated with job-ability handling rather than being
-cast directly as ordinary skill-up spells. fileciteturn1file0L29-L35
+cast directly as ordinary skill-up spells.
 
 ### Offensive spells
 
 Enemy-targeted spells are only accepted when offensive spell use is
 enabled and the spell appears in the configured `user_spells.Offensive`
 list. The addon can also require the player to be engaged before such
-spells are considered castable. fileciteturn1file0L338-L350
+spells are considered castable.
 
 ## Spell Selection
 
@@ -284,12 +284,12 @@ using:
 
 The addon checks that the party member has a valid mob object and is
 still targetable/alive before selecting them.
-fileciteturn1file0L346-L350 fileciteturn1file0L593-L629
+
 
 If an enemy-targeted spell is next in the rotation but no valid target
 is available, the addon skips forward through the rotation until it
 finds a usable target or exhausts the available spells.
-fileciteturn1file0L631-L647
+
 
 ## MP Management
 
@@ -304,7 +304,7 @@ When enabled, the addon can use:
 -   **Staff:** Spirit Taker
 
 The weapon skill must be available, the player must have at least 1000
-TP, and a valid enemy target must exist. fileciteturn1file0L504-L557
+TP, and a valid enemy target must exist.
 
 ### Spell affordability
 
@@ -312,7 +312,7 @@ Before casting the next rotation spell, SkillUp checks whether the
 player has enough MP. It reserves an additional 25 MP and skips the
 spell when necessary. If the entire remaining rotation is unaffordable,
 the addon allows the player to rest instead of endlessly cycling.
-fileciteturn1file0L694-L716
+
 
 ### Refresh support
 
@@ -326,7 +326,7 @@ The addon can use:
 -   Sublimation (SCH) and Convert (RDM) as MP recovery, when their
     job abilities are ready (see Global options).
 
-fileciteturn1file0L724-L760
+
 
 ## Skill-Cap Detection
 
@@ -356,7 +356,7 @@ Singing Capped
 ```
 
 plus whichever Wind/String instrument tracking options are enabled.
-fileciteturn1file0L559-L585
+
 
 ### Test Mode
 
@@ -367,7 +367,7 @@ Test Mode disables the normal cap-stop behavior:
 ```
 
 This is intended for testing and allows the rotation to continue beyond
-the normal skill cap. fileciteturn1file0L431-L433
+the normal skill cap.
 
 ## Cast Tracking
 
@@ -406,7 +406,7 @@ The Main panel displays:
 -   Skill-ups per hour
 -   Total skill-ups
 
-fileciteturn1file0L862-L909
+
 
 ## Persistence
 
@@ -419,11 +419,11 @@ data/<character>/settings.lua
 ```
 
 The first time the character runs SkillUp, the root `settings.lua` is
-copied into that location. fileciteturn1file0L949-L964
+copied into that location.
 
 The in-game Save button writes the spell selections, global toggles,
 Singing tracking options, toolbag option, and MP threshold back to the
-character's settings file. fileciteturn2file0L750-L837
+character's settings file.
 
 > **Warning:** Saving through the in-game settings menu regenerates the
 > settings file and removes hand-added comments beyond the generated
@@ -445,8 +445,8 @@ window size) are stored separately in:
 data/<character>/Saves/skillup_ui.lua
 ```
 
-and restored when the addon loads. fileciteturn1file0L180-L188
-fileciteturn1file0L967-L974
+and restored when the addon loads.
+
 
 ## User Interface
 
@@ -464,8 +464,8 @@ The settings window is a persistent, draggable panel. It contains:
 -   Hide/show controls
 
 The panel is dynamically resized around its current contents and
-constrained to remain on-screen. fileciteturn2file0L227-L264
-fileciteturn2file0L597-L747
+constrained to remain on-screen.
+
 
 The panel can be dragged as one unit, with its position retained for
 subsequent sessions.
@@ -498,7 +498,7 @@ The addon registers these command aliases:
 Starting a category rebuilds the rotation from spells available to the
 current job/subjob and from the configured whitelist. Spells the
 character does not possess are reported, and the run stops if no usable
-spells remain. fileciteturn1file0L352-L400
+spells remain.
 
 ### Stop
 
@@ -506,7 +506,7 @@ spells remain. fileciteturn1file0L352-L400
 //skillup skillstop
 ```
 
-Stops the skill-up process. fileciteturn1file0L411-L412
+Stops the skill-up process.
 
 ### Show / hide the settings panel
 
@@ -516,7 +516,7 @@ Stops the skill-up process. fileciteturn1file0L411-L412
 ```
 
 The panel can also be hidden using its `[X]` button.
-fileciteturn2file0L950-L969
+
 
 ### Set MP-regain WS threshold
 
@@ -532,7 +532,7 @@ The supported threshold values are:
 
 The threshold represents the player's MP percentage at or below which an
 available MP-restoring weapon skill can be used.
-fileciteturn2file0L21-L32
+
 
 ### Toggle options
 
@@ -574,7 +574,7 @@ Reports:
 -   Candidate weapon skills
 -   Selected ready weapon skill
 
-fileciteturn1file0L438-L447
+
 
 ### Party debugging
 
@@ -590,7 +590,7 @@ data/<character>/Saves/skillup_debug.log
 
 It records party members, HP, mob availability, targetability, live
 party targets, rotation position, and the current spell target.
-fileciteturn1file0L448-L469
+
 
 ### Action-message debugging
 
@@ -600,7 +600,7 @@ party targets, rotation position, and the current spell target.
 
 Enables logging of relevant incoming text and action-message information
 to `skillup_debug.log`. This is useful when diagnosing skill-up message
-matching or action-message behavior. fileciteturn1file0L470-L475
+matching or action-message behavior.
 
 ### Action-event capture
 
@@ -619,7 +619,7 @@ Captures Windower `action` event data, including:
 -   Additional-effect information
 
 The data is written to `skillup_debug.log`.
-fileciteturn1file0L237-L250 fileciteturn1file0L314-L320
+
 
 ## Runtime Flow
 
@@ -675,7 +675,7 @@ Load addon
 The core decision loop prioritizes special cases such as Summoning pet
 requirements, MP-regain weapon skills, insufficient MP, Moogle Trust,
 skill-up items, GEO refresh, RDM Refresh/Haste, and finally the selected
-skill-up rotation. fileciteturn1file0L670-L762
+skill-up rotation.
 
 ## Important Implementation Notes
 
@@ -684,7 +684,7 @@ skill-up rotation. fileciteturn1file0L670-L762
 The source explicitly notes that action-event confirmation is
 established for spells, while job abilities, weapon skills, and item
 actions use an eight-second timeout as a safety net.
-fileciteturn3file0L131-L139
+
 
 ### Skill-up detection depends on chat text
 
@@ -692,14 +692,14 @@ The total skill-up counter is driven by matching the player's skill-rise
 message in incoming text. If a server/client localization or message
 format differs from the expected English pattern, this portion may
 require adjustment. The source currently uses the English-language form
-of the player's skill-rise message. fileciteturn3file0L72-L96
+of the player's skill-rise message.
 
 ### Settings are character-specific
 
 The addon deliberately loads settings after the character name becomes
 available instead of requiring the settings module at parse time. This
 is necessary because the settings path is based on the current character
-name. fileciteturn1file0L21-L25
+name.
 
 ## File/Directory Overview
 
@@ -731,7 +731,7 @@ defined in the source examined here.
 -   **Author:** Aryden
 -   **Version:** 0.0.1.0
 
-fileciteturn1file0L11-L14
+
 
 ## Disclaimer
 
