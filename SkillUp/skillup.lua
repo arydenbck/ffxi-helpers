@@ -219,6 +219,7 @@ function begin_pending_cast(cast_type, name, target, wait_time)
     pending_cast.name = name
     pending_cast.target = target
     pending_cast.sent_time = os.clock()
+    pending_cast.wait = wait_time or 0
     pending_cast.saw_start = false
 end
 
@@ -406,6 +407,17 @@ windower.register_event('action', function(act)
         -- decision loop for the rest of that timeout on every single
         -- MP Regain WS use.
         if act.category == 3 then
+            handle_cast_success()
+        end
+        return
+    end
+    if pending_cast.cast_type == 'ja' then
+        -- Job ability resolution (category 6, param = ability id). Without
+        -- this a pending 'ja' was only cleared by the 8+ second safety-net
+        -- timeout, which is what made the rotation sit idle after every
+        -- Release / Avatar's Favor / Elemental Siphon.
+        local ja = act.category == 6 and res.job_abilities[act.param]
+        if ja and ja[language] == pending_cast.name then
             handle_cast_success()
         end
         return
@@ -3791,6 +3803,15 @@ windower.register_event('prerender',function()
     -- stay stuck forever with nothing left to call decide_and_act()
     -- again. Treat any still-active pending cast as resolved after a
     -- generous timeout rather than hang indefinitely.
+    -- Release may not produce a confirmable action event at all, so treat
+    -- it as done as soon as the pet is actually gone (once its queued wait
+    -- has elapsed) instead of idling out the full timeout below.
+    if pending_cast.active and pending_cast.cast_type == 'ja' and pending_cast.name == 'Release'
+        and pending_cast.sent_time
+        and os.clock() - pending_cast.sent_time > (pending_cast.wait or 0) + 0.5
+        and not pet_is_valid() then
+        handle_cast_success()
+    end
     if pending_cast.active and pending_cast.sent_time
         and os.clock() - pending_cast.sent_time > (pending_cast.timeout or 8) then
         handle_cast_success()
