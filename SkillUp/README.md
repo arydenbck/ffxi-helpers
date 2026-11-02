@@ -179,10 +179,6 @@ The Globals tab provides:
                                       high.
   -----------------------------------------------------------------------
 
-The MP Reserve list is always shown (default 0): a spell is only cast if its
-MP cost plus the reserve fits in your current MP; otherwise the character
-rests until MP is full. Command: `//su setreserve <number>`.
-
 The MP threshold list is shown whenever Use MP Regain WS, Use
 Sublimation, or Use Convert is enabled. Commands: `//su setautorefresh`,
 `//su setautohaste`, `//su setsublimation`, `//su setconvert`.
