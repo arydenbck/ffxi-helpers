@@ -270,6 +270,8 @@ end
 -- Returns: number - delay in seconds
 SINGING_SKILL_ID = 40
 SINGING_POST_CAST_DELAY = 4.0
+-- Delay after a successful Release before the next summon is sent.
+RELEASE_POST_DELAY = 1.5
 function post_cast_delay(spell_name)
     local spell_res = spell_name and get_spell_by_name(spell_name)
     if spell_res and spell_res.skill == SINGING_SKILL_ID then
@@ -325,7 +327,7 @@ function handle_cast_success()
             return
         end
         advance_skillup_count()
-        decide_and_act(post_cast_delay(was_name))
+        decide_and_act(was_name == 'Release' and RELEASE_POST_DELAY or post_cast_delay(was_name))
     end)
     if not ok then
         windower.add_to_chat(167, 'SkillUp: error handling a successful cast ('..tostring(err)..') -- recovering instead of stalling.')
