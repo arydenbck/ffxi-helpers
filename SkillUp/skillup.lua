@@ -417,7 +417,10 @@ windower.register_event('action', function(act)
         -- timeout, which is what made the rotation sit idle after every
         -- Release / Avatar's Favor / Elemental Siphon.
         local ja = act.category == 6 and res.job_abilities[act.param]
-        if ja and ja[language] == pending_cast.name then
+        -- Release is resolved by the prerender pet-gone check instead: its
+        -- event arrives while the pet is still valid, so deciding here would
+        -- see a live pet.
+        if ja and ja[language] == pending_cast.name and pending_cast.name ~= 'Release' then
             handle_cast_success()
         end
         return
@@ -1307,11 +1310,19 @@ function decide_and_act(wait_time)
         -- pet must not stop the rotation: fall through and cast the next one.
         -- Avatar's Favor upkeep only applies while a pet is out.
         if pet_is_valid() then
-            local favor_recast = windower.ffxi.get_ability_recasts()[90]
-            local favor_ready = (not favor_recast or favor_recast == 0) and not buffactive["Avatar's Favor"]
-            if favor_ready and windower.ffxi.get_player().vitals.mpp <= 75 then
-                cast_ja(90, wait_time)
-                return
+            -- Look Avatar's Favor up by name: this used to hardcode ability 90,
+            -- which is Release, so a low-MP check with a pet out sent Release.
+            local favor_id, favor_res
+            for id, ja in pairs(res.job_abilities) do
+                if ja.en == "Avatar's Favor" then favor_id, favor_res = id, ja break end
+            end
+            if favor_id then
+                local favor_recast = windower.ffxi.get_ability_recasts()[favor_res.recast_id or favor_id]
+                local favor_ready = (not favor_recast or favor_recast == 0) and not buffactive["Avatar's Favor"]
+                if favor_ready and windower.ffxi.get_player().vitals.mpp <= 75 then
+                    cast_ja(favor_id, wait_time)
+                    return
+                end
             end
         end
     end
