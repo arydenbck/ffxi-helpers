@@ -9,7 +9,7 @@ supports multiple magic skills, party-aware targeting, MP management,
 skill-up items, job-specific handling, and an in-game settings
 interface.
 
-> **Source:** `skillup.lua` version `0.0.3.0`, authored by Aryden. The
+> **Source:** `skillup.lua` version `0.0.4.0`, authored by Aryden. The
 > addon registers the `skillup` and `su` commands.
 
 
@@ -47,7 +47,10 @@ interface.
 -   Singing support for separately tracking Wind and String instrument
     skill caps.
 -   Blue Magic shield-spell handling through linked job abilities.
--   Summoning-specific Avatar's Favor / spirit handling.
+-   Summoning-specific Avatar's Favor / spirit handling. With no pet out
+    the rotation summons the next avatar or spirit instead of resting,
+    and Release is followed by a short (1.5 s) wait before the next
+    summon.
 -   Automatic stopping when configured skill caps are reached.
 -   Test mode that ignores skill caps (`//su testmode`).
 -   Debug logging for action events, action messages, party state, and
@@ -676,7 +679,7 @@ Load addon
 ```
 
 The core decision loop prioritizes special cases such as Summoning pet
-requirements, MP-regain weapon skills, insufficient MP, Moogle Trust,
+upkeep (Avatar's Favor), MP-regain weapon skills, insufficient MP, Moogle Trust,
 skill-up items, GEO refresh, RDM Refresh/Haste, and finally the selected
 skill-up rotation.
 
@@ -685,8 +688,10 @@ skill-up rotation.
 ### Action events are currently spell-focused
 
 The source explicitly notes that action-event confirmation is
-established for spells, while job abilities, weapon skills, and item
-actions use an eight-second timeout as a safety net.
+established for spells and weapon skills. Job abilities resolve on their
+own action event (Release resolves once the pet is gone), and anything
+that never reports back falls back to an eight-second timeout as a
+safety net.
 
 
 ### Skill-up detection depends on chat text
@@ -732,7 +737,7 @@ defined in the source examined here.
 
 -   **Addon:** SkillUp
 -   **Author:** Aryden
--   **Version:** 0.0.1.0
+-   **Version:** 0.0.4.0
 
 
 
