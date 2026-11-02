@@ -1289,18 +1289,10 @@ function decide_and_act(wait_time)
 
     
     if rotation_state.skillup_type == "Summoning" then
-        if not pet_is_valid() then
-            if get_player_status_string() ~= 'Engaged' then
-                windower.send_command('input /heal on')
-            else
-                -- Engaged with no valid pet and can't rest -- keep
-                -- re-checking periodically instead of giving up
-                -- permanently, so this notices on its own once the
-                -- pet becomes valid again or combat ends.
-                coroutine.schedule(function() decide_and_act(3.0) end, 3.0)
-            end
-            return
-        else
+        -- The rotation spells ARE the summons (avatars/spirits), so a missing
+        -- pet must not stop the rotation: fall through and cast the next one.
+        -- Avatar's Favor upkeep only applies while a pet is out.
+        if pet_is_valid() then
             local favor_recast = windower.ffxi.get_ability_recasts()[90]
             local favor_ready = (not favor_recast or favor_recast == 0) and not buffactive["Avatar's Favor"]
             if favor_ready and windower.ffxi.get_player().vitals.mpp <= 75 then
