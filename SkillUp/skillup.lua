@@ -542,6 +542,13 @@ function self_command(command)
             windower.add_to_chat(123, 'MP Regain WS threshold set to '..tostring(user_settings.mp_ws_threshold))
         end
     end
+    if type(commandArgs) == 'table' and commandArgs[1] == 'setreserve' then
+        local n = tonumber(commandArgs[2])
+        if n and n >= 0 then
+            user_settings.mp_reserve = math.floor(n)
+            windower.add_to_chat(123, 'MP reserve set to '..tostring(user_settings.mp_reserve))
+        end
+    end
     if command == "skillstop" then
         skilluprun = false
     elseif command == 'settrust' then
@@ -1320,7 +1327,7 @@ function decide_and_act(wait_time)
     -- skip-tracking flag so this can't loop forever if every remaining
     -- spell is also too expensive.
     local upcoming_res = upcoming and get_spell_by_name(upcoming)
-    if upcoming_res and upcoming_res.mp_cost and (upcoming_res.mp_cost + 25) > windower.ffxi.get_player().vitals.mp then
+    if upcoming_res and upcoming_res.mp_cost and (upcoming_res.mp_cost + (user_settings.mp_reserve or 0)) > windower.ffxi.get_player().vitals.mp then
         if addon_state.skipped_spells:contains(upcoming) then
             addon_state.skipped_spells:clear()
             if get_player_status_string() ~= 'Engaged' then
@@ -1904,7 +1911,7 @@ end
 -- Commands that change something save_settings_file() actually persists
 -- (as opposed to test_mode, show/hide, zfix's own display, debug
 -- toggles, etc., which aren't part of settings.lua at all).
-SETTINGS_DIRTYING_COMMANDS = S{'settrust','setgeo','setitem','setmpws','setoffensive','setengaged','setautorefresh','setautohaste','setsublimation','setconvert','setthreshold','settrackwind','settrackstring','settoolbags','zfix'}
+SETTINGS_DIRTYING_COMMANDS = S{'settrust','setgeo','setitem','setmpws','setoffensive','setengaged','setautorefresh','setautohaste','setsublimation','setconvert','setthreshold','setreserve','settrackwind','settrackstring','settoolbags','zfix'}
 
 GLOBAL_TOGGLE_DEFS = {
     {id='TRUST', label="Use Moogle Trust",          command='settrust',      field='use_trust'},
@@ -1921,6 +1928,11 @@ GLOBAL_TOGGLE_DEFS = {
 -- Radio-button style options for MP Regain WS threshold: 5, then 10-100
 -- by 10s. Selecting one calls 'setthreshold <value>' directly.
 MP_WS_THRESHOLD_OPTIONS = {5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100}
+-- Radio options for the MP reserve: spare MP kept after a cast. A spell is
+-- skipped (and the character rests once nothing is affordable) when
+-- spell cost + reserve is more than current MP. Selecting one calls
+-- 'setreserve <value>'.
+MP_RESERVE_OPTIONS = {0, 5, 10, 15, 20, 25, 30, 40, 50}
 -- Windower has no z-index/render-priority API -- render order across
 -- ALL addons is purely "whoever created their primitives most recently
 -- draws on top", global and out of any single addon's control. Rebuilding
@@ -2414,6 +2426,19 @@ function rebuild_settings_grid()
             local checked = addon_state[def.field]
             lines:append(checked and ('\\cs(46,204,113)[✓] '..def.label..'\\cr') or ('[ ] '..def.label))
             table.insert(entries, def)
+            if not UI_COMPACT then
+                lines:append('')
+                table.insert(entries, {command=nil})
+            end
+        end
+        lines:append('')
+        table.insert(entries, {command=nil})
+        lines:append('\\cs(150,155,165)MP Reserve -- MP kept spare: a spell is only cast if its cost plus this fits in your current MP, otherwise she rests:\\cr')
+        table.insert(entries, {command=nil})
+        for _, val in ipairs(MP_RESERVE_OPTIONS) do
+            local selected = ((user_settings.mp_reserve or 0) == val)
+            lines:append(selected and ('\\cs(46,204,113)(o) '..tostring(val)..'\\cr') or ('( ) '..tostring(val)))
+            table.insert(entries, {command='setreserve '..tostring(val)})
             if not UI_COMPACT then
                 lines:append('')
                 table.insert(entries, {command=nil})
@@ -3041,6 +3066,7 @@ function save_settings_file()
     table.insert(lines, "    },")
     table.insert(lines, "    save_settings = "..tostring(user_settings.save_settings)..",")
     table.insert(lines, "    mp_ws_threshold = "..tostring(user_settings.mp_ws_threshold)..",")
+    table.insert(lines, "    mp_reserve = "..tostring(user_settings.mp_reserve or 0)..",")
     for _, def in ipairs(GLOBAL_TOGGLE_DEFS) do
         table.insert(lines, "    "..def.field.." = "..tostring(addon_state[def.field])..",")
     end
