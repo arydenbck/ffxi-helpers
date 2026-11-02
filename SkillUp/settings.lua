@@ -22,6 +22,8 @@ user_settings = {
     save_settings = false, -- change this to true if you wish to save the last position of your skillup window
     mp_ws_threshold = 50,  -- with "Use MP Regain WS" toggled on, it'll try Energy Drain (etc.) whenever your MP% drops to or below this number, regardless of the next spell's cost
 
+    mp_reserve = 0,        -- spare MP kept after each cast: a spell is only cast if its cost + this fits in current MP, otherwise she rests (also on the Globals tab)
+
     -- These 6 are also editable from the in-game Settings menu (Globals
     -- tab) -- changes made there overwrite this file on Save.
     use_trust = false,        -- Use Moogle Trust
